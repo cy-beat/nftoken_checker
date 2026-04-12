@@ -1663,8 +1663,9 @@ exportData.push(
         body: JSON.stringify({
             text: exportData.join("\n")
         })
-    });
-}        
+    }); 
+} // closes if
+} // 🔥 THIS LINE IS THE IMPORTANT ONE (closes startApiTest)        
     function extractNetflixId(cookieStr) {
     if (!cookieStr) return 'N/A';
 
