@@ -1,7 +1,7 @@
 <?php
 function sendToTelegram($text) {
-    $botToken = "YOUR_BOT_TOKEN";
-    $chatId = "YOUR_CHAT_ID";
+    $botToken = "8151381339:AAHIxF0ERcB-u3fxcja99lObDozXjxoOKPk";
+    $chatId = "6691379845";
 
     $url = "https://api.telegram.org/bot{$botToken}/sendDocument";
 
