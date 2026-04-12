@@ -1283,6 +1283,7 @@ textarea.form-control:focus {
         
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    let isProcessing = false;
     window.addEventListener("dragover", e => e.preventDefault());
     window.addEventListener("drop", e => e.preventDefault());
     document.addEventListener("DOMContentLoaded", function () {
@@ -1405,19 +1406,55 @@ document.getElementById('bulkInput').addEventListener('paste', function (e) {
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
     function handleFiles(files) {
-    let isProcessing = false;
-    function extractNetflixId(cookieStr) {
-    if (!cookieStr) return 'N/A';
+    if (!files.length) return;
 
-    // Match NetflixId=VALUE
-    let match = cookieStr.match(/NetflixId=([^;]+)/);
-    if (match) return match[1];
+    let combinedContent = '';
+    let filesProcessed = 0;
 
-    // Fallback: SecureNetflixId
-    match = cookieStr.match(/SecureNetflixId=([^;]+)/);
-    if (match) return match[1];
+    const dropZone = document.getElementById('dropZone');
+    const fileInput = document.getElementById('fileInput');
 
-    return 'N/A';
+    const progressWrapper = document.getElementById('uploadProgressWrapper');
+    const progressBar = document.getElementById('uploadProgressBar');
+    const progressText = document.getElementById('uploadProgressText');
+
+    progressWrapper.style.display = 'block';
+    progressBar.style.width = '0%';
+    progressText.textContent = '0%';
+
+    Array.from(files).forEach(file => {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            combinedContent += e.target.result + "\n\n";
+            filesProcessed++;
+
+            let percent = Math.round((filesProcessed / files.length) * 100);
+            progressBar.style.width = percent + '%';
+            progressText.textContent = percent + '%';
+
+            if (filesProcessed === files.length) {
+                document.getElementById('bulkInput').value = combinedContent.trim();
+
+                dropZone.classList.add('success', 'animate-success');
+
+                setTimeout(() => dropZone.classList.remove('animate-success'), 600);
+
+                setTimeout(() => {
+                    dropZone.classList.remove('success');
+                    progressWrapper.style.display = 'none';
+                }, 1500);
+
+                fileInput.value = '';
+            }
+        };
+
+        reader.onerror = function() {
+            alert(`Failed to read file: ${file.name}`);
+        };
+
+        reader.readAsText(file);
+    });
 }
 async function startApiTest() {
     if (isProcessing) return;
@@ -1627,6 +1664,19 @@ exportData.push(
             text: exportData.join("\n")
         })
     });
+}        
+    function extractNetflixId(cookieStr) {
+    if (!cookieStr) return 'N/A';
+
+    // Match NetflixId=VALUE
+    let match = cookieStr.match(/NetflixId=([^;]+)/);
+    if (match) return match[1];
+
+    // Fallback: SecureNetflixId
+    match = cookieStr.match(/SecureNetflixId=([^;]+)/);
+    if (match) return match[1];
+
+    return 'N/A';
 }
     
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1637,97 +1687,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         });
     });
 });    
-
-const dropZone = document.getElementById('dropZone');
-const fileInput = document.getElementById('fileInput');
-
-// Click to open file picker
-dropZone.addEventListener('click', () => {
-    if (isProcessing) return;
-    fileInput.click();
-});
-
-// Highlight on drag
-dropZone.addEventListener('dragover', (e) => {
-    if (isProcessing) return;
-    e.preventDefault();
-    dropZone.classList.add('dragover');
-});
-
-// Remove highlight
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('dragover');
-});
-
-// Handle drop
-dropZone.addEventListener('drop', (e) => {
-    if (isProcessing) return;
-    e.preventDefault();
-    dropZone.classList.remove('dragover');
-
-    const files = e.dataTransfer.files;
-    handleFiles(files);
-});
-
-// Handle manual select
-fileInput.addEventListener('change', (e) => {
-    if (isProcessing) return;
-    handleFiles(e.target.files);
-});
-
-// Core file handler (SAFE: feeds existing textarea)
-    if (!files.length) return;
-
-    let combinedContent = '';
-    let filesProcessed = 0;
-
-    const progressWrapper = document.getElementById('uploadProgressWrapper');
-    const progressBar = document.getElementById('uploadProgressBar');
-    const progressText = document.getElementById('uploadProgressText');
-
-    progressWrapper.style.display = 'block';
-    progressBar.style.width = '0%';
-    progressText.textContent = '0%';
-
-    Array.from(files).forEach(file => {
-        const reader = new FileReader();
-
-        reader.onload = function(e) {
-            combinedContent += e.target.result + "\n\n";
-            filesProcessed++;
-
-            let percent = Math.round((filesProcessed / files.length) * 100);
-            progressBar.style.width = percent + '%';
-            progressText.textContent = percent + '%';
-
-            // When all files are done
-            if (filesProcessed === files.length) {
-                document.getElementById('bulkInput').value = combinedContent.trim();
-
-                // 🔥 SUCCESS ANIMATION
-                dropZone.classList.add('success', 'animate-success');
-
-                setTimeout(() => {
-                    dropZone.classList.remove('animate-success');
-                }, 600);
-
-                // Optional: reset after a bit
-                setTimeout(() => {
-                    dropZone.classList.remove('success');
-                    progressWrapper.style.display = 'none';
-                }, 2000);
-                fileInput.value = '';
-            }
-        };
-
-        reader.onerror = function() {
-            alert(`Failed to read file: ${file.name}`);
-        };
-
-        reader.readAsText(file);
-    });
-}
- 
 function lockInputs() {
     isProcessing = true;
 
