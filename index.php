@@ -1283,7 +1283,69 @@ textarea.form-control:focus {
         
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    
+    window.addEventListener("dragover", e => e.preventDefault());
+    window.addEventListener("drop", e => e.preventDefault());
+    document.addEventListener("DOMContentLoaded", function () {
+
+const dropZone = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+
+if (!dropZone || !fileInput) return;
+
+// Click to open file picker
+dropZone.addEventListener('click', () => {
+    if (isProcessing) return;
+    fileInput.click();
+});
+
+// Highlight on drag
+dropZone.addEventListener('dragover', (e) => {
+    if (isProcessing) return;
+    e.preventDefault();
+    dropZone.classList.add('dragover');
+});
+
+// Remove highlight
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('dragover');
+});
+
+// Handle drop
+dropZone.addEventListener('drop', (e) => {
+    if (isProcessing) return;
+    e.preventDefault();
+    dropZone.classList.remove('dragover');
+
+    const files = e.dataTransfer.files;
+    handleFiles(files);
+});
+
+// File input change
+fileInput.addEventListener('change', (e) => {
+    if (isProcessing) return;
+    handleFiles(e.target.files);
+});
+document.getElementById('bulkInput').addEventListener('paste', function (e) {
+
+    if (isProcessing) return;
+
+    setTimeout(() => {
+        const text = this.value;
+
+        if (text.length > 0) {
+            // 🔥 visual feedback
+            this.style.borderColor = "#22c55e";
+            this.style.boxShadow = "0 0 10px rgba(34,197,94,0.6)";
+
+            setTimeout(() => {
+                this.style.borderColor = "";
+                this.style.boxShadow = "";
+            }, 800);
+        }
+    }, 50);
+
+});
+});
     let exportData = [];
     let countSuccess = 0;
     let countError = 0;
@@ -1342,7 +1404,7 @@ textarea.form-control:focus {
     }
 
     const sleep = ms => new Promise(r => setTimeout(r, ms));
-
+    function handleFiles(files) {
     let isProcessing = false;
     function extractNetflixId(cookieStr) {
     if (!cookieStr) return 'N/A';
@@ -1614,7 +1676,6 @@ fileInput.addEventListener('change', (e) => {
 });
 
 // Core file handler (SAFE: feeds existing textarea)
-function handleFiles(files) {
     if (!files.length) return;
 
     let combinedContent = '';
