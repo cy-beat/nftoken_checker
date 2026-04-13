@@ -146,7 +146,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 "━━━━━━━━━━━━━━━━━━━━";
 
         // 🔥 FIX: send immediately (no bulk bug)
-        sendToTelegram($msg); // 🔥 instant send
         $bulkResults[] = $msg; // optional for bulk
     }
 
