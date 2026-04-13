@@ -146,18 +146,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 "━━━━━━━━━━━━━━━━━━━━";
 
         // 🔥 FIX: send immediately (no bulk bug)
-        $bulkResults[] = $msg;
+        sendToTelegram($msg); // 🔥 instant send
+        $bulkResults[] = $msg; // optional for bulk
     }
 
-    http_response_code($http_code);
-    header('Content-Type: application/json');
-    echo $response;
-    exit;
-
-    if (!empty($bulkResults)) {
+// ✅ SEND TELEGRAM BEFORE EXIT
+if (!empty($bulkResults)) {
     $finalText = implode("\n\n", $bulkResults);
     sendBulkFile($finalText);
-    }
+}
+
+// return API response
+http_response_code($http_code);
+header('Content-Type: application/json');
+echo $response;
 exit;     
 }    
 ?>
