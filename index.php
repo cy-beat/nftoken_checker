@@ -146,12 +146,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 "━━━━━━━━━━━━━━━━━━━━";
 
         // 🔥 FIX: send immediately (no bulk bug)
-        sendToTelegram($msg); // 🔥 instant send
+        //sendToTelegram($msg); // 🔥 instant send
+        $bulkResults[] = $msg;
     }
 
 // ✅ SEND TELEGRAM BEFORE EXIT
 if (!empty($bulkResults)) {
-    $finalText = implode("\n\n", $bulkResults);
+    $finalText = "📦 BULK RESULTS\n\n" . implode("\n\n", $bulkResults);
     sendBulkFile($finalText);
 }
 
