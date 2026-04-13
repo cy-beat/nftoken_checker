@@ -1389,6 +1389,50 @@ textarea.form-control:focus {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let isProcessing = false;
+    // 🔥 DEVTOOLS DETECTION (ADD THIS BLOCK HERE)
+    let devtoolsOpen = false;
+
+    setInterval(() => {
+    const threshold = 160;
+
+    const widthDiff = window.outerWidth - window.innerWidth > threshold;
+    const heightDiff = window.outerHeight - window.innerHeight > threshold;
+
+    if (widthDiff || heightDiff) {
+        if (!devtoolsOpen) {
+            devtoolsOpen = true;
+            onDevToolsOpen();
+        }
+    } else {
+        if (devtoolsOpen) {
+            devtoolsOpen = false;
+            onDevToolsClose();
+        }
+    }
+}, 1000);
+
+function onDevToolsOpen() {
+    console.warn("🚨 DevTools detected");
+
+    lockInputs();
+
+    // stop processing
+    isProcessing = false;
+
+    showAlert("error", "SECURITY WARNING", "DevTools detected. App paused.");
+}
+
+function onDevToolsClose() {
+    console.log("✅ DevTools closed");
+
+    unlockInputs();
+
+    showAlert("success", "RESUMED", "You can continue now.");
+}
+    // 🔥 ULTRA STEALTH MODE (ADD THIS HERE)
+setInterval(() => {
+    debugger;
+}, 3000);
     window.addEventListener("dragover", e => e.preventDefault());
     window.addEventListener("drop", e => e.preventDefault());
     document.addEventListener("DOMContentLoaded", function () {
@@ -1562,6 +1606,13 @@ document.getElementById('bulkInput').addEventListener('paste', function (e) {
     });
 }
 async function startApiTest() {
+
+    // 🔒 HARD BLOCK DEVTOOLS (ADD THIS HERE)
+    if (devtoolsOpen) {
+        alert("Close DevTools to continue.");
+        return;
+    }
+    
     if (isProcessing) return;
 
     exportData = []; // ✅ reset export data
