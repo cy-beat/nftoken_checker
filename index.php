@@ -157,7 +157,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!empty($bulkResults)) {
     $finalText = implode("\n\n", $bulkResults);
     sendBulkFile($finalText);
-}
+    }
+exit;     
+}    
 ?>
 <!DOCTYPE html>
 <html lang="en">
