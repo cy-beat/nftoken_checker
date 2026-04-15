@@ -18,32 +18,26 @@ $USERS = [
 
 // 🔑 LOGIN FUNCTION
 function login($username, $password, $USERS) {
+
+    $username = trim($username);
+    $password = trim($password);
+
     foreach ($USERS as $user) {
-        if ($user['username'] === $username && password_verify($password, $user['password'])) {
-            
-            // 🔥 VERY IMPORTANT (ADD HERE)
-            session_regenerate_id(true);
 
-            $_SESSION['user'] = $user;
+        if ($user['username'] === $username) {
 
-            return true;
+            echo "👉 USER FOUND<br>";
+
+            if (password_verify($password, $user['password'])) {
+                echo "✅ PASSWORD MATCH";
+                exit;
+            } else {
+                echo "❌ PASSWORD NOT MATCH";
+                exit;
+            }
         }
     }
-    return false;
-}
 
-// 🔒 PROTECT PAGE
-function requireLogin() {
-
-    if (session_status() !== PHP_SESSION_ACTIVE) {
-        session_start();
-    }
-
-    if (empty($_SESSION['user'])) {
-        session_unset();
-        session_destroy();
-
-        header("Location: login.php");
-        exit;
-    }
+    echo "❌ USER NOT FOUND";
+    exit;
 }
