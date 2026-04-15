@@ -148,14 +148,15 @@ body {
             <?= $error ?>
         </p>
     <?php endif; ?>
-
+    $_SERVER['SERVER_NAME'] === 'localhost' ||
+    $_SERVER['SERVER_NAME'] === '127.0.0.1'
     <!-- 🔐 Demo Account (Styled to match UI) -->
     <div class="demo-box">
         <p class="demo-title">👤 User Account</p>
 
-        <div class="demo-row" onclick="fillLogin('user1','user123')">
-            <span class="demo-user">Username: user</span>
-            <span class="demo-pass">Password: user123</span>
+        <div class="demo-row" onclick="fillLogin('user','user123')">
+            <span class="demo-user">User: user</span>
+            <span class="demo-pass">Pass: user123</span>
         </div>
     </div>
     
