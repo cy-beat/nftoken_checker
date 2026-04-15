@@ -9,12 +9,12 @@ $USERS = [
     ],
     [
         "username" => "user",
-        "password" => "$2y$10$g3P0Rj8dZ0sG9Yp5J1Y2KuYcXgX3qZQYw6rU5FJtM2vCkYk2X9y7O",
+        "password" => "$2y$10$wH1vVh5lPZ0eQ5r0kCqK5e0W6Fv6P8kF5KkQZ8nZ1gkU3wX6YyG6K",
         "role" => "user"
     ],
     [
         "username" => "Cybeat",
-        "password" => "$2y$10$9sTQbGzP7d2YFhX1KcVZJe7Xw2LqR8uJ5Wk6F3mZpVhYtQe2Rr6aS",
+        "password" => "$2y$10$wH1vVh5lPZ0eQ5r0kCqK5e0W6Fv6P8kF5KkQZ8nZ1gkU3wX6YyG6K",
         "role" => "user"
     ]
 ];
