@@ -45,13 +45,4 @@ function requireLogin() {
         header("Location: login.php");
         exit;
     }
-
-    // 🔐 IP LOCK
-    if (!isset($_SESSION['ip']) || $_SESSION['ip'] !== $_SERVER['REMOTE_ADDR']) {
-        session_unset();
-        session_destroy();
-
-        header("Location: login.php");
-        exit;
-    }
 }
