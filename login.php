@@ -154,8 +154,8 @@ body {
         <p class="demo-title">👤 User Account</p>
 
         <div class="demo-row" onclick="fillLogin('user1','user123')">
-            <span class="demo-user">user</span>
-            <span class="demo-pass">user123</span>
+            <span class="demo-user">Username: user</span>
+            <span class="demo-pass">Password: user123</span>
         </div>
     </div>
     
