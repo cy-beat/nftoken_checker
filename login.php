@@ -91,8 +91,7 @@ body {
 <body>
 
 <div class="login-box">
-echo "Password entered: [" . $password . "]";
-exit;
+
     <h2 class="text-center text-xl font-bold mb-4">🔐 User Login</h2>
 
     <?php if ($error): ?>
