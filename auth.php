@@ -26,18 +26,15 @@ function login($username, $password, $USERS) {
 
         if ($user['username'] === $username) {
 
-            echo "👉 USER FOUND<br>";
-
             if (password_verify($password, $user['password'])) {
-                echo "✅ PASSWORD MATCH";
-                exit;
-            } else {
-                echo "❌ PASSWORD NOT MATCH";
-                exit;
+
+                session_regenerate_id(true);
+                $_SESSION['user'] = $user;
+
+                return true;
             }
         }
     }
 
-    echo "❌ USER NOT FOUND";
-    exit;
+    return false;
 }
