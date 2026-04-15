@@ -82,6 +82,58 @@ body {
     from {opacity:0; transform:translateY(10px);}
     to {opacity:1;}
 }
+
+/* 🔐 demo credentials box */
+.demo-box {
+    background: rgba(13,17,23,0.7);
+    border: 1px solid #30363d;
+    padding: 12px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    box-shadow: inset 0 0 10px rgba(88,166,255,0.08);
+    animation: fadeIn 0.6s ease;
+}
+
+/* title */
+.demo-title {
+    font-size: 13px;
+    color: #58a6ff;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+/* row */
+.demo-row {
+    display: flex;
+    justify-content: space-between;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    padding: 8px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+/* hover glow */
+.demo-row:hover {
+    border-color: #58a6ff;
+    box-shadow: 0 0 12px rgba(88,166,255,0.4);
+    transform: scale(1.02);
+}
+
+/* username */
+.demo-user {
+    color: #79c0ff;
+    font-weight: 500;
+}
+
+/* password */
+.demo-pass {
+    color: #ff7b72;
+    font-weight: 500;
+}
+
+    
 </style>
 </head>
 
@@ -97,6 +149,16 @@ body {
         </p>
     <?php endif; ?>
 
+    <!-- 🔐 Demo Account (Styled to match UI) -->
+    <div class="demo-box">
+        <p class="demo-title">👤 User Account</p>
+
+        <div class="demo-row" onclick="fillLogin('user1','user123')">
+            <span class="demo-user">user</span>
+            <span class="demo-pass">user123</span>
+        </div>
+    </div>
+    
     <form method="POST">
         <input class="input" name="username" placeholder="Username" required>
         <input class="input" type="password" name="password" placeholder="Password" required>
@@ -106,5 +168,12 @@ body {
 
 </div>
 
+<script>
+function fillLogin(u,p){
+    document.querySelector('[name="username"]').value = u;
+    document.querySelector('[name="password"]').value = p;
+}
+</script>
+    
 </body>
 </html>
