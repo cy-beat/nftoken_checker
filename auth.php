@@ -8,7 +8,7 @@ $USERS = [
         "role" => "admin"
     ],
     [
-        "username" => "user1",
+        "username" => "user",
         "password" => password_hash("user123", PASSWORD_DEFAULT),
         "role" => "user"
     ],
