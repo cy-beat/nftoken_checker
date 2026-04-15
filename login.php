@@ -147,8 +147,6 @@ body {
         <p style="color:#ef4444; font-size:13px; margin-bottom:10px;">
             <?= $error ?>
         </p>
-    <?php endif; ?>
-<?php if ($_SERVER['SERVER_NAME'] === 'localhost'): ?>
     <!-- 🔐 Demo Account (Styled to match UI) -->
     <div class="demo-box">
         <p class="demo-title">👤 User Account</p>
