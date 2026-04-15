@@ -3,12 +3,12 @@ session_start();
 // 🔐 USERS DATABASE (can move to DB later)
 $USERS = [
     [
-        "username" => "admin",
+        "username" => 'admin',
         "password" => '$2y$10$cHc.9/ZvrqvuAYAPfw/HYeZlxwN4X13YcuaDpRYp0q3rFPdBt1ii2',
         "role" => "admin"
     ],
     [
-        "username" => "user",
+        "username" => 'user',
         "password" => '$2y$10$YKHu/E1X9ZkyNJZ.kr3JBOqskcAEcw8bf.7JNdFvt44TtukS9WAxW',
         "role" => "user"
     ],
