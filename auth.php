@@ -23,7 +23,12 @@ function login($username, $password, $USERS) {
     $password = trim($password);
 
     foreach ($USERS as $user) {
+echo "PHP VERSION: " . phpversion() . "<br>";
+echo "HASH: " . $user['password'] . "<br>";
+echo "VERIFY: ";
 
+var_dump(password_verify($password, $user['password']));
+exit;
         if ($user['username'] === $username) {
     echo "Password entered: [" . $password . "]";
     exit;
