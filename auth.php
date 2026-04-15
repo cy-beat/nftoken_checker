@@ -4,17 +4,17 @@ session_start();
 $USERS = [
     [
         "username" => "admin",
-        "password" => "$2y$10$wH1vVh5lPZ0eQ5r0kCqK5e0W6Fv6P8kF5KkQZ8nZ1gkU3wX6YyG6K",
+        "password" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9r5y1b7G6F7Zl5l6C2vR1K",
         "role" => "admin"
     ],
     [
         "username" => "user",
-        "password" => "$2y$10$wH1vVh5lPZ0eQ5r0kCqK5e0W6Fv6P8kF5KkQZ8nZ1gkU3wX6YyG6K",
+        "password" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9r5y1b7G6F7Zl5l6C2vR1K",
         "role" => "user"
     ],
     [
         "username" => "Cybeat",
-        "password" => "$2y$10$wH1vVh5lPZ0eQ5r0kCqK5e0W6Fv6P8kF5KkQZ8nZ1gkU3wX6YyG6K",
+        "password" => "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9r5y1b7G6F7Zl5l6C2vR1K",
         "role" => "user"
     ]
 ];
