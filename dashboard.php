@@ -1,12 +1,12 @@
 <?php
 // 🔥 STEP 1: NO CACHE (PUT HERE FIRST)
-header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-header("Pragma: no-cache");
+//header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+//header("Pragma: no-cache");
 
 // 🔥 STEP 2: SESSION + AUTH
-session_start();
-include "auth.php";
-requireLogin();
+//session_start();
+//include "auth.php";
+//requireLogin();
 
 
 // 🔥 GET SAVED RESULTS API
@@ -1308,18 +1308,6 @@ textarea.form-control:focus {
     <!-- RIGHT -->
     <span style="font-size: 12px; color:#8b949e;" class="mb-1 text-right">
         Powered by: <b>Cybeat</b>
-        <a href="logout.php" 
-   style="
-   color:#ff4d4d;
-   font-weight:bold;
-   padding:4px 10px;
-   border-radius:20px;
-   transition:0.2s;
-   "
-   onmouseover="this.style.boxShadow='0 0 10px rgba(239,68,68,0.7)'"
-   onmouseout="this.style.boxShadow='none'">
-   Logout
-     </a>
    </span>
 
   </div>
