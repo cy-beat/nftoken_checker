@@ -5,7 +5,7 @@ if (!isset($data['text']) || empty($data['text'])) {
     exit;
 }
 
-$botToken = "8151381339:AAHIxF0ERcB-u3fxcja99lObDozXjxoOKPk";
+$botToken = "8151381339:AAH7nYMQx9fo7RHJsp1kqCrgVZN0-QxOMiQ";
 $chatId = "6691379845";
 
 $filePath = tempnam(sys_get_temp_dir(), 'tg_') . '.txt';
