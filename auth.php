@@ -6,7 +6,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $USERS = [
     [
         "username" => "admin",
-        "password" => "$2y$10$wQJmRNdO5P8ix6gS1hMy9OInw19LtGPfE06NMJO4k27q8hltF5pE6",
+        "password" => "$2y$10$cHc.9/ZvrqvuAYAPfw/HYeZlxwN4X13YcuaDpRYp0q3rFPdBt1ii2",
         "role" => "admin"
     ],
     [
