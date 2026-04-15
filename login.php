@@ -5,7 +5,10 @@ include "auth.php";
 $error = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (login($_POST['username'], $_POST['password'], $USERS)) {
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
+
+if (login($username, $password, $USERS)) {
 
         $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
 
