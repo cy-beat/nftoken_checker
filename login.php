@@ -148,10 +148,7 @@ body {
             <?= $error ?>
         </p>
     <?php endif; ?>
-if (
-    $_SERVER['SERVER_NAME'] === 'localhost' ||
-    $_SERVER['SERVER_NAME'] === '127.0.0.1'
-):
+<?php if ($_SERVER['SERVER_NAME'] === 'localhost'): ?>
     <!-- 🔐 Demo Account (Styled to match UI) -->
     <div class="demo-box">
         <p class="demo-title">👤 User Account</p>
