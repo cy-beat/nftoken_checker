@@ -25,7 +25,8 @@ function login($username, $password, $USERS) {
     foreach ($USERS as $user) {
 
         if ($user['username'] === $username) {
-
+    echo "Password entered: [" . $password . "]";
+    exit;
             if (password_verify($password, $user['password'])) {
 
                 session_regenerate_id(true);
