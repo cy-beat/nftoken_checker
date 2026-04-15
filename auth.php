@@ -6,19 +6,14 @@ if (session_status() === PHP_SESSION_NONE) {
 $USERS = [
     [
         "username" => "admin",
-        "password" => "$2y$10$Z8UZuHrEn5WoTw5UJlh1FO2TGwQ0hVi/xl/CKDyZ9qaGR0p5qEB9q",
+        "password" => "$2y$10$wQJmRNdO5P8ix6gS1hMy9OInw19LtGPfE06NMJO4k27q8hltF5pE6",
         "role" => "admin"
     ],
     [
         "username" => "user1",
-        "password" => "$2y$10$LcBoFQv3P0vZ/Q74/DK1MeiEU9FJ277XDPHOdzGct56317iduI9hO",
+        "password" => "$2y$10$YKHu/E1X9ZkyNJZ.kr3JBOqskcAEcw8bf.7JNdFvt44TtukS9WAxW",
         "role" => "user"
     ],
-    [
-        "username" => "Cybeat",
-        "password" => "$2y$10$byF3zhRIaOYUHAydShe2ae43rSqFxxbatCwgUKX4rLknUlaMq9zXy",
-        "role" => "user"
-    ]
 ];
 
 // 🔑 LOGIN FUNCTION
