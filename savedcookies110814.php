@@ -1,12 +1,12 @@
 <?php
 // 🔥 STEP 1: NO CACHE (PUT HERE FIRST)
-//header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-//header("Pragma: no-cache");
+header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+header("Pragma: no-cache");
 
 // 🔥 STEP 2: SESSION + AUTH
-//session_start();
-//include "auth.php";
-//requireLogin();
+session_start();
+include "auth.php";
+requireLogin();
 
 $file = "saved_results.json";
 
