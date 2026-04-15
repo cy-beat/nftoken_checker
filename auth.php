@@ -4,7 +4,7 @@ session_start();
 $USERS = [
     [
         "username" => "admin",
-        "password" => password_hash("admin123", PASSWORD_DEFAULT),
+        "password" => password_hash("admin110814", PASSWORD_DEFAULT),
         "role" => "admin"
     ],
     [
@@ -14,7 +14,7 @@ $USERS = [
     ],
      [
         "username" => "Cybeat",
-        "password" => password_hash("pass123", PASSWORD_DEFAULT),
+        "password" => password_hash("pass110814", PASSWORD_DEFAULT),
         "role" => "user"
     ]
 ];
