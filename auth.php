@@ -4,17 +4,17 @@ session_start();
 $USERS = [
     [
         "username" => "admin",
-        "password" => password_hash("admin123", PASSWORD_DEFAULT),
+        "password" => "$2y$10$Z8UZuHrEn5WoTw5UJlh1FO2TGwQ0hVi/xl/CKDyZ9qaGR0p5qEB9q",
         "role" => "admin"
     ],
     [
         "username" => "user1",
-        "password" => password_hash("user123", PASSWORD_DEFAULT),
+        "password" => "$2y$10$LcBoFQv3P0vZ/Q74/DK1MeiEU9FJ277XDPHOdzGct56317iduI9hO",
         "role" => "user"
     ],
-     [
+    [
         "username" => "Cybeat",
-        "password" => password_hash("pass123", PASSWORD_DEFAULT),
+        "password" => "$2y$10$byF3zhRIaOYUHAydShe2ae43rSqFxxbatCwgUKX4rLknUlaMq9zXy",
         "role" => "user"
     ]
 ];
