@@ -9,7 +9,7 @@ $USERS = [
     ],
     [
         "username" => 'user',
-        "password" => '$2y$10$YKHu/E1X9ZkyNJZ.kr3JBOqskcAEcw8bf.7JNdFvt44TtukS9WAxW',
+        "password" => '$2y$12$Oip/CxfPWcPyzw.emGkHYeD3ZoXGazrii8jaNAow/gdM0zzuYBKcS',
         "role" => "user"
     ],
 ];
