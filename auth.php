@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 // 🔐 USERS DATABASE (can move to DB later)
 $USERS = [
     [
@@ -28,7 +30,6 @@ function login($username, $password, $USERS) {
             session_regenerate_id(true);
 
             $_SESSION['user'] = $user;
-            $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
 
             return true;
         }
@@ -44,15 +45,6 @@ function requireLogin() {
     }
 
     if (empty($_SESSION['user'])) {
-        session_unset();
-        session_destroy();
-
-        header("Location: login.php");
-        exit;
-    }
-
-    // 🔐 IP LOCK
-    if (!isset($_SESSION['ip']) || $_SESSION['ip'] !== $_SERVER['REMOTE_ADDR']) {
         session_unset();
         session_destroy();
 
